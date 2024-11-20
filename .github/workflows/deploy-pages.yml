@@ -34,7 +34,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           name: dist  # 与 deploy-pages 中的 artifact_name 保持一致
-          path: assets  # 本地的构建目录路径
+          path: dist
 
   deploy:
     name: deploy githupage
