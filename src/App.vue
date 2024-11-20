@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <div class="page text-red-500">
     page login
     功能A
     <router-view />

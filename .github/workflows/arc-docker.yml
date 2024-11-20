@@ -1,0 +1,62 @@
+name: Publish AnythingLLM Primary Docker image (amd64/arm64)
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+on: workflow_dispatch
+
+jobs:
+  push_multi_platform_to_registries:
+  name: Push Docker multi-platform image to multiple registries
+  runs-on: ubuntu-latest
+
+ permissions:
+    packages: write
+    contents: read
+
+  steps:
+    - name: Check out the repo
+      uses: actions/checkout@v4
+
+    - name: Check if DockerHub build needed
+      shell: bash
+      run: |
+        # Check if the secret for USERNAME is set (don't even check for the password)
+        if [[ -z "${{ secrets.DOCKER_USERNAME }}" ]]; then
+          echo "DockerHub build not needed"
+          echo "enabled=false" >> $GITHUB_OUTPUT
+        else
+          echo "DockerHub build needed"
+          echo "enabled=true" >> $GITHUB_OUTPUT
+        fi
+      id: dockerhub
+
+    - name: ssh remote deploy
+        uses: fifsky/ssh-action@master
+        with:
+          command: |
+            cd /
+            echo -e "1.docker login start==>"
+            echo ${{ secrets.ALIYUN_DOCKER_PASSWORD }} | docker login ${{ vars.REGISTRY_MIRROR }} --username ${{ secrets.ALIYUN_DOCKER_USERNAME }} --password-stdin
+
+            echo -e "2.docker stop myblog container==>"
+            docker container stop ${{ vars.APP_NAME }}
+
+            echo -e "3.docker conatainer rm==>"
+            docker container rm ${{ vars.APP_NAME }}
+
+            echo -e "4.docker image rm==>"
+            docker image rm ${{ vars.REGISTRY_MIRROR }}/${{ vars.REGISTRY_NAMESPACE }}/${{ vars.APP_NAME }}:latest
+
+            echo -e "5.docker pull==>"
+            docker pull ${{ vars.REGISTRY_MIRROR }}/${{ vars.REGISTRY_NAMESPACE }}/${{ vars.APP_NAME }}:latest
+
+            echo -e "6.docker container create and start==>"
+            docker container run -d -p 3000:3000 --name ${{ vars.APP_NAME }} ${{ vars.REGISTRY_MIRROR }}/${{ vars.REGISTRY_NAMESPACE }}/${{ vars.APP_NAME }}:latest
+
+            echo -e "7.docker logout==>"
+            docker logout
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.USER }}
+          pass: ${{ secrets.PASSWORD }}
