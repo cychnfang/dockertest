@@ -1,5 +1,4 @@
-name: Publish AnythingLLM Primary Docker image (amd64/arm64)
-
+name: docker
 concurrency:
   group: build-${{ github.ref }}
   cancel-in-progress: true
