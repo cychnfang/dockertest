@@ -39,6 +39,7 @@ jobs:
   deploy:
     name: deploy githupage
 
+    environment: production
     permissions:
       contents: read
       pages: write
