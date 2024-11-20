@@ -39,7 +39,7 @@ jobs:
   deploy:
     name: deploy githupage
 
-    environment: production
+    environment: github-pages
     permissions:
       contents: read
       pages: write
