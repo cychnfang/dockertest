@@ -5,6 +5,7 @@ import VueMacros from 'unplugin-vue-macros/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: 'dockertest',
   server: {
     port: 8080
   },
@@ -19,5 +20,8 @@ export default defineConfig({
     alias: {
       '@': '/src'
     }
+  },
+  build: {
+
   }
 })

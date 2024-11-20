@@ -31,14 +31,15 @@ jobs:
           npm run build
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
           name: dist  # 与 deploy-pages 中的 artifact_name 保持一致
-          path: dist  # 本地的构建目录路径
+          path: dist
 
   deploy:
     name: deploy githupage
 
+    environment: github-pages
     permissions:
       contents: read
       pages: write

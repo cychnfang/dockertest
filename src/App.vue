@@ -1,6 +1,7 @@
 <template>
   <div class="page">
-    page
+    page login
+    功能A
     <router-view />
   </div>
 </template>
