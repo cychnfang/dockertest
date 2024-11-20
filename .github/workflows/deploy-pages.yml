@@ -4,36 +4,37 @@ run-name: run name(gh-pages)
 
 on: workflow_dispatch
 
-jobs: 
-  name: build
-  permissions:
-    contents: read
-    id-token: write
+jobs:
+  build:
+    name: deploy githupage
+    permissions:
+      contents: read
+      id-token: write
+    
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+        with: 
+          ref: gh-pages
+
+      - uses: actions/setup-node@v4.1.0
+        with:
+          node-version: 20
+
+      - uses: pnpm/action-setup@v4.0.0
+        with:
+          version: 9
   
-  runs-on: ubuntu-latest
+      - run: |
+          pnpm i
+          npm run build
 
-  steps:
-    - uses: actions/checkout@v4.2.2
-      with: 
-        ref: gh-pages
-
-    - uses: actions/setup-node@v4.1.0
-      with:
-        node-version: 20
-
-    - uses: pnpm/action-setup@v4.0.0
-      with:
-        version: 9
- 
-    - run: |
-        pnpm i
-        npm run build
-
-    - name: Deploy to GitHub Pages
-      uses: actions/deploy-pages@v4.0.5
-      with:
-          token: ${{ secrets.GH_PAGE }}
-          artifact_name: dist
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4.0.5
+        with:
+            token: ${{ secrets.GH_PAGE }}
+            artifact_name: dist
 
 
 
