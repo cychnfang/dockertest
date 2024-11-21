@@ -25,7 +25,7 @@ jobs:
           version: 9
 
       - name: build dist
-      - run: |
+        run: |
           pnpm i
           npm run build
           ls
