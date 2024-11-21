@@ -51,7 +51,7 @@ jobs:
       - name: Download dist artifact
         uses: actions/download-artifact@v4
         with:
-          name: dist-artifact
+          name: dist
       - name: Check dist content
         run: ls -al dist/
 
