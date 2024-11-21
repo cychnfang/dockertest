@@ -27,6 +27,7 @@ jobs:
       - run: |
           pnpm i
           npm run build
+          ls
 
       - name: Upload build artifact
         uses: actions/upload-pages-artifact@v3
