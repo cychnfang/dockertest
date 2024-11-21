@@ -47,7 +47,6 @@ jobs:
 
       - name: push docker image REGISTRY_MIRROR
         run: |
-          docker tag ${{ vars.REGISTRY_MIRROR }}/${{ vars.REGISTRY_NAMESPACE }}/${{ vars.APP_NAME }}:latest
           docker push ${{ vars.REGISTRY_MIRROR }}/${{ vars.REGISTRY_NAMESPACE }}/${{ vars.APP_NAME }}:latest
 
         
