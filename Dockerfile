@@ -14,6 +14,5 @@ COPY Docker/nginx/nginx.conf /ect/nginx/nginx.conf
 EXPOSE 80 
 
 # 启动nginx 容器
-
 CMD ["nginx", "-g", "daemin off;"]
  
