@@ -15,5 +15,5 @@ RUN rm -rf /usr/share/nginx/html/*
 EXPOSE 80 
 
 # 启动nginx 容器
-CMD ["nginx", "-g", "daemin off;"]
+CMD ["nginx", "-g", "daemon off;"]
  
