@@ -28,7 +28,6 @@ jobs:
         run: |
           pnpm i
           npm run build
-          ls
 
       - name: Upload build artifact
         uses: actions/upload-pages-artifact@v3
@@ -52,8 +51,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dist
+          path: ./
       - name: Check dist content
-        run: ls -al dist/
+        run: ls -al ./dist
 
 
 
