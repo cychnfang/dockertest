@@ -40,11 +40,14 @@ jobs:
         with:
           username: ${{ secrets.ALIYUN_DOCKER_USERNAME }}
           password: ${{ secrets.ALIYUN_DOCKER_PASSWORD }}
-          registry: ${{ vars.REGISTRY_MIRROR }}
+          registry: crpi-lmzo739xdo770743.cn-shanghai.personal.cr.aliyuncs.com
 
-      - name: push docker image
+      - run: |
+          echo "${{ vars.REGISTRY_MIRROR }}"
+
+      - name: push docker image REGISTRY_MIRROR
         run: |
-          docker push ${{vars.REGISTRY_MIRROR}}/${{vars.REGISTRY_NAMESPACE}}/${{vars.APP_NAME}}:latest
+          docker push ${{ vars.REGISTRY_MIRROR }}/${{ vars.REGISTRY_NAMESPACE }}/${{ vars.APP_NAME }}:latest
 
         
 
