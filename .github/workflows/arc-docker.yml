@@ -50,6 +50,30 @@ jobs:
           docker tag ${{ vars.APP_NAME }} ${{ vars.REGISTRY_MIRROR }}/${{ vars.REGISTRY_NAMESPACE }}/${{ vars.APP_NAME }}:latest
           docker push ${{ vars.REGISTRY_MIRROR }}/${{ vars.REGISTRY_NAMESPACE }}/${{ vars.APP_NAME }}:latest
 
+  deploy:
+    name: deploy aliyun
+    permissions:
+      contents: read
+      id-token: write
+    
+    needs: build
+    steps:
+      - name: run docker
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.ECS_HOST }}
+          username: root
+          password: ${{ secrets.ECS_PASSWORD }}
+          port: 22
+          script: |
+            docker rm -f front-end-app
+            docker rmi -f app
+            docker pull ${{ vars.REGISTRY_MIRROR }}/${{ vars.REGISTRY_NAMESPACE }}/${{ vars.APP_NAME }}:latest
+            docker tag ${{ vars.REGISTRY_MIRROR }}/${{ vars.REGISTRY_NAMESPACE }}/${{ vars.APP_NAME }}:latest app
+            docker run -d --name front-end-app -p 80:80 app
+
+
+
         
 
     
