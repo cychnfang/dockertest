@@ -72,6 +72,7 @@ jobs:
             docker pull ${{ vars.REGISTRY_MIRROR }}/${{ vars.REGISTRY_NAMESPACE }}/${{ vars.APP_NAME }}:latest
             docker tag ${{ vars.REGISTRY_MIRROR }}/${{ vars.REGISTRY_NAMESPACE }}/${{ vars.APP_NAME }}:latest app
             docker run -d --name front-end-app -p 80:80 app
+            
 
 
 
